@@ -9,7 +9,17 @@ public class Main {
         int x = 0;
         while(true) {
             Thread.sleep(2000);
-            producer.produceMessage("test");
+
+            String request = "{" +
+					"\"baseSymbol\":\"LTC\"," +
+					"\"counterSymbol\":\"BTC\"," +
+					"\"volume\":\"0.01\"," +
+					"\"type\":\"BID\"," +
+					"\"status\":\"NEW\"," +
+					"\"price\":\"0.001\"," +
+					"\"orderID\":\"sdlkjigio\""+
+					"}";
+            producer.produceMessage(request);
             x++;
         }
     }
