@@ -13,40 +13,32 @@ import org.apache.activemq.spring.ActiveMQConnectionFactory;
 public class Producer {
     
     private Connection connection;
+    private Session session;
+    Destination destination;
+    MessageProducer producer;
 
     public Producer() throws JMSException {
         // Create a ConnectionFactory
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        connectionFactory.setBrokerURL("tcp://localhost:61616");
+        connectionFactory.setBrokerURL("tcp://10.1.1.73:61616");
 
         connection = connectionFactory.createConnection();
         connection.start();
-
-        // Clean up
-//      connection.close();
+        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        destination = session.createTopic("OrderRequest.Topic");
+        producer = session.createProducer(destination);
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
     }
     
-    public void produceMessage(int x) {
+    public void produceMessage(String msg) {
         try {
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            
-            // Create the destination
-//            Destination destination = session.createQueue("Testqueue");
-            Destination destination = session.createTopic("Testtopic");
-            
-            MessageProducer producer = session.createProducer(destination);
-            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-            
-            // Create a messages
-            String text = "Hello world " + x + "! From: " + Thread.currentThread().getName() + " : " + this.hashCode();
-            TextMessage message = session.createTextMessage(text);
-    
-            // Tell the producer to send the message
-            System.out.println("Sent message: "+ message.hashCode() + " : " + Thread.currentThread().getName());
 
+            // Create a messages
+            TextMessage message = session.createTextMessage(msg);
+            // Tell the producer to send the message
+            System.out.println("Sent message: "+ message.getText());
             producer.send(message);
-            session.close();
         }
         catch (Exception e) {
             System.out.println("Caught: " + e);
