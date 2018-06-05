@@ -7,18 +7,31 @@ public class Main {
 
         Producer producer = new Producer();
         int x = 0;
-        while(true) {
+        //while(true)
+        {
             Thread.sleep(2000);
 
+//            String request = "{" +
+//					"\"baseSymbol\":\"LTC\"," +
+//					"\"counterSymbol\":\"BTC\"," +
+//					"\"volume\":\"0.01\"," +
+//					"\"type\":\"BID\"," +
+//					"\"status\":\"NEW\"," +
+//					"\"price\":\"0.001\"," +
+//					"\"orderID\":\"\""+
+//					"}";
+
             String request = "{" +
-					"\"baseSymbol\":\"LTC\"," +
-					"\"counterSymbol\":\"BTC\"," +
-					"\"volume\":\"0.01\"," +
-					"\"type\":\"BID\"," +
-					"\"status\":\"NEW\"," +
-					"\"price\":\"0.001\"," +
-					"\"orderID\":\"sdlkjigio\""+
-					"}";
+                    "\"baseSymbol\":\"LTC\"," +
+                    "\"counterSymbol\":\"BTC\"," +
+                    "\"volume\":\"0.01\"," +
+                    "\"type\":\"BID\"," +
+                    "\"status\":\"PENDING_CANCEL\"," +
+                    "\"price\":\"0.001\"," +
+                    "\"orderID\":\"5b163d87fb4a174cbc8aeeaf\""+
+                    "}";
+
+
             producer.produceMessage(request);
             x++;
         }
