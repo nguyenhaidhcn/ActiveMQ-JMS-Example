@@ -20,16 +20,16 @@ public class Producer {
     public Producer() throws JMSException {
         // Create a ConnectionFactory
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-//        connectionFactory.setBrokerURL("tcp://192.168.1.200:61616");
+//        connectionFactory.setBrokerURL("tcp://192.168.1.109:61616");
+//        connectionFactory.setBrokerURL("tcp://192.168.1.221:61616");
         connectionFactory.setBrokerURL("tcp://localhost:61616");
-
         connection = connectionFactory.createConnection();
         connection.start();
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//        destination = session.createQueue("foo.bar");
-//        destination = session.createTopic("OrderRequest.Topic");
-
         destination = session.createQueue("OrderMatching.Queue");
+//        destination = session.createTopic("InitOrder.Topic");
+
+//        destination = session.createTopic("NodeOrderBook.Topic");
 
         producer = session.createProducer(destination);
         producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
